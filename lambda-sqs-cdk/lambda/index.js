@@ -14,6 +14,6 @@ exports.handler = async (event) => {
   return {
     status: 200,
     message:
-      "Lambda function created f rom CDK successfully, added github workflow",
+      "Lambda function created from CDK successfully, added git_hub workflow with layer1",
   };
 };
