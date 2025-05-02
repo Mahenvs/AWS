@@ -12,7 +12,7 @@ export class LambdaSqsCdkStack extends cdk.Stack {
     // Create axios layer
     const axiosLayer = new lambda.LayerVersion(this, "AxiosLayer", {
       code: lambda.Code.fromAsset(path.join(__dirname, "../layers")),
-      compatibleRuntimes: [lambda.Runtime.NODEJS_20_X],
+      compatibleRuntimes: [lambda.Runtime.NODEJS_22_X],
       description: "Reusable layer with axios",
     });
     // The code that defines your stack goes here
