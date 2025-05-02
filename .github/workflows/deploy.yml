@@ -29,4 +29,4 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Deploy CDK Stack
-        run: npx cdk deploy --app "npx ts-node ./lambda-sqs-cdk/bin/lambda-sqs-cdk.ts" --require-approval never
+        run: npx cdk deploy --require-approval never
