@@ -10,7 +10,7 @@ exports.handler = async (event) => {
   console.log('Received SQS event:', JSON.stringify(event, null, 2));
 
   const response = await axios.get('https://api.github.com');
-  console.log('GitHub API status:', response.status);
+  console.log('GitHub API status:', response.status,response.statusText);
   return {
     status: 200,
     message:
