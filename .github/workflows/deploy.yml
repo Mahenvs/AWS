@@ -17,6 +17,10 @@ jobs:
         with:
           node-version: "20"
 
+      - name: Install Axios in layer
+        run: npm install
+        working-directory: ./lambda-sqs-cdk/layers/axios-node
+
       - name: Install dependencies
         run: npm install
         working-directory: ./lambda-sqs-cdk
