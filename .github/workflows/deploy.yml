@@ -19,7 +19,7 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        # working-directory: ./lambda-sqs-cdk
+        working-directory: ./lambda-sqs-cdk
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
@@ -29,4 +29,4 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Deploy CDK Stack
-        run: npx cdk deploy --app "npx ts-node bin/lambda-sqs-cdk.ts" --require-approval never
+        run: npx cdk deploy --app "npx ts-node ./lambda-sqs-cdk/bin/lambda-sqs-cdk.ts" --require-approval never
