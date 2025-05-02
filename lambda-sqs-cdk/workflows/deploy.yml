@@ -19,7 +19,7 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        working-directory: ./lambda-sqs-cdk
+        # working-directory: ./lambda-sqs-cdk
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
