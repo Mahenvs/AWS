@@ -19,7 +19,7 @@ jobs:
 
       - name: Install Axios in layer
         run: npm install axios
-        working-directory: ./lambda-sqs-cdk/layer/axios-node
+        working-directory: ./lambda-sqs-cdk/layer/axios-node/nodejs
 
       - name: Install dependencies
         run: npm install
