@@ -4,7 +4,7 @@ import * as lambda from "aws-cdk-lib/aws-lambda";
 import * as sqs from "aws-cdk-lib/aws-sqs";
 import * as eventSources from "aws-cdk-lib/aws-lambda-event-sources";
 import * as path from "path";
-
+import * as apigw from "aws-cdk-lib/aws-apigateway";
 export class LambdaSqsCdkStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
@@ -15,18 +15,34 @@ export class LambdaSqsCdkStack extends cdk.Stack {
       compatibleRuntimes: [lambda.Runtime.NODEJS_22_X],
       description: "Reusable layer with axios",
     });
+    // example resource
+    const queue = new sqs.Queue(this, "LambdaSqsCdkQueue", {
+      visibilityTimeout: cdk.Duration.seconds(300),
+    });
     // The code that defines your stack goes here
     const fn = new lambda.Function(this, "LambdaFunctionFromCDK", {
       runtime: lambda.Runtime.NODEJS_22_X,
       handler: "index.handler",
       code: lambda.Code.fromAsset("lambda"),
       layers: [axiosLayer],
-    });
-    // example resource
-    const queue = new sqs.Queue(this, "LambdaSqsCdkQueue", {
-      visibilityTimeout: cdk.Duration.seconds(300),
+      environment: {
+        QUEUE_URL: queue.queueUrl,
+      },
     });
 
     fn.addEventSource(new eventSources.SqsEventSource(queue));
+
+    // 🔹 1. Create an API Gateway REST API
+    const api = new apigw.RestApi(this, "SqsPostAPI", {
+      restApiName: "SQS Post API",
+    });
+    // Add a send post endpoint that calls existing lambda
+    const send = api.root.addResource("send");
+    send.addMethod("POST", new apigw.LambdaIntegration(fn));
+
+    // Output API URL
+    new cdk.CfnOutput(this, "ApiUrl", {
+      value: api.url,
+    });
   }
 }
