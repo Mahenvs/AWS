@@ -1,5 +1,5 @@
-const AWS = require('aws-sdk');
-const sqs = new AWS.SQS();
+const { SQS } = require("@aws-sdk/client-sqs");
+const sqs = new SQS();
 
 exports.handler = async (event) => {
   const body = JSON.parse(event.body || '{}');
@@ -7,7 +7,7 @@ exports.handler = async (event) => {
   await sqs.sendMessage({
     QueueUrl: process.env.QUEUE_URL,
     MessageBody: JSON.stringify(body),
-  }).promise();
+  });
 
   return {
     statusCode: 200,

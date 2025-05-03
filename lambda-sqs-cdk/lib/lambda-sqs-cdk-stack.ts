@@ -19,11 +19,12 @@ export class LambdaSqsCdkStack extends cdk.Stack {
     const queue = new sqs.Queue(this, "LambdaSqsCdkQueue", {
       visibilityTimeout: cdk.Duration.seconds(300),
     });
+
     // The code that defines your stack goes here
     const apiHandler = new lambda.Function(this, "LambdaFunctionFromCDK", {
       runtime: lambda.Runtime.NODEJS_22_X,
-      handler: "index.handler",
-      code: lambda.Code.fromAsset("lambda/api"),
+      handler: "index.handler", // ✅ index.js → exports.handler
+      code: lambda.Code.fromAsset("lambda/api"), // ✅ points to folder
       layers: [axiosLayer],
       environment: {
         QUEUE_URL: queue.queueUrl,
@@ -33,7 +34,7 @@ export class LambdaSqsCdkStack extends cdk.Stack {
     // 🔹 Lambda B: SQS Consumer
     const queueConsumer = new lambda.Function(this, "QueueConsumer", {
       runtime: lambda.Runtime.NODEJS_22_X,
-      handler: "index.handler",
+      handler: "index.handler", // ✅ index.js → exports.handler
       code: lambda.Code.fromAsset("lambda/consumer"),
       layers: [axiosLayer],
     });
