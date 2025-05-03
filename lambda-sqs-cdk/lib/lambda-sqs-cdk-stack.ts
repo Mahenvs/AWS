@@ -30,6 +30,7 @@ export class LambdaSqsCdkStack extends cdk.Stack {
         QUEUE_URL: queue.queueUrl,
       },
     });
+    queue.grantSendMessages(apiHandler);
 
     // 🔹 Lambda B: SQS Consumer
     const queueConsumer = new lambda.Function(this, "QueueConsumer", {
@@ -39,6 +40,7 @@ export class LambdaSqsCdkStack extends cdk.Stack {
       layers: [axiosLayer],
     });
 
+    queue.grantConsumeMessages(queueConsumer);
     queueConsumer.addEventSource(new eventSources.SqsEventSource(queue));
 
     // 🔹 1. Create an API Gateway REST API
