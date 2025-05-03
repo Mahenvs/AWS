@@ -22,7 +22,7 @@ export class LambdaSqsCdkStack extends cdk.Stack {
     // The code that defines your stack goes here
     const apiHandler = new lambda.Function(this, "LambdaFunctionFromCDK", {
       runtime: lambda.Runtime.NODEJS_22_X,
-      handler: "api.handler",
+      handler: "index.handler",
       code: lambda.Code.fromAsset("lambda/api"),
       layers: [axiosLayer],
       environment: {
