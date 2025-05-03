@@ -23,7 +23,7 @@ export class LambdaSqsCdkStack extends cdk.Stack {
     const apiHandler = new lambda.Function(this, "LambdaFunctionFromCDK", {
       runtime: lambda.Runtime.NODEJS_22_X,
       handler: "api.handler",
-      code: lambda.Code.fromAsset("lambda"),
+      code: lambda.Code.fromAsset("lambda/api"),
       layers: [axiosLayer],
       environment: {
         QUEUE_URL: queue.queueUrl,
@@ -34,7 +34,7 @@ export class LambdaSqsCdkStack extends cdk.Stack {
     const queueConsumer = new lambda.Function(this, "QueueConsumer", {
       runtime: lambda.Runtime.NODEJS_22_X,
       handler: "index.handler",
-      code: lambda.Code.fromAsset("lambda"),
+      code: lambda.Code.fromAsset("lambda/consumer"),
       layers: [axiosLayer],
     });
 
