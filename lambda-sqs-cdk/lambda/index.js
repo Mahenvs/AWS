@@ -2,9 +2,9 @@ const axios = require('axios');
 
 exports.handler = async (event) => {
   console.log("Hello, this is serverless lambda function");
-  for(const {messageId,body} of event.Records){
-    console.log(messageId,body)
-    console.log("I am in message quwu");
+  for(const record of event.Records){
+    const message = JSON.parse(record.body);
+    console.log("I am in message consumer : ",message);
     
   }
   console.log('Received SQS event:', JSON.stringify(event, null, 2));
